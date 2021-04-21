@@ -1,0 +1,3 @@
+system_MKE15Z4.c:71:6:SystemInit	8	static
+system_MKE15Z4.c:86:6:SystemCoreClockUpdate	16	static
+system_MKE15Z4.c:120:29:SystemInitHook	8	static

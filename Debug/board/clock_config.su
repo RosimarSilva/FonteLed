@@ -1,0 +1,6 @@
+fsl_clock.h:623:20:CLOCK_SetIpSrc	24	static
+fsl_clock.h:726:20:CLOCK_SetRunModeSysClkConfig	16	static
+fsl_clock.h:740:20:CLOCK_GetCurSysClkConfig	16	static
+clock_config.c:61:13:CLOCK_CONFIG_FircSafeConfig	40	static
+clock_config.c:98:6:BOARD_InitBootClocks	8	static
+clock_config.c:181:6:BOARD_BootClockRUN	16	static

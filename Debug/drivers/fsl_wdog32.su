@@ -1,0 +1,8 @@
+fsl_common.h:482:28:DisableGlobalIRQ	16	static
+fsl_common.h:509:24:EnableGlobalIRQ	24	static
+fsl_wdog32.h:207:20:WDOG32_Disable	16	static
+fsl_wdog32.h:323:20:WDOG32_Unlock	16	static
+fsl_wdog32.c:20:6:WDOG32_ClearStatusFlags	16	static
+fsl_wdog32.c:51:6:WDOG32_GetDefaultConfig	16	static
+fsl_wdog32.c:72:6:WDOG32_Init	40	static
+fsl_wdog32.c:113:6:WDOG32_Deinit	24	static
