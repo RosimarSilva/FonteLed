@@ -59,14 +59,18 @@ int main(void) {
  printf("Hello World\n");
 
     /* Force the counter to be placed into memory. */
-    volatile static int i = 0 ;
+    volatile static long i = 0,j=0 ;
     /* Enter an infinite loop, just incrementing a counter. */
 
 
-    go_tela(4);
+    go_tela(15);
     while(1) {
-    	 go_tela(4);
-    	//for(i = 0;i<=30;++i)go_tela(i);
+    	// go_tela(4);
+   	for(i = 0;i<=3000000;++i)
+    	{}
+    	++j;
+    	if(j>30) j =0;
+    	go_tela(j);
     	while(tela == 12)
     	{
 

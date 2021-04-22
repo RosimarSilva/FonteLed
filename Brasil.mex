@@ -146,6 +146,11 @@
                <description></description>
                <options/>
                <dependencies>
+                  <dependency resourceType="ClockOutput" resourceId="PCC.PCC_LPUART0_CLK" description="LPUART0 clock is inactive. Problem must be resolved in another tool." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART0.uart_tx" description="Signal TX of the peripheral LPUART0 is not routed. Problem must be resolved in another tool." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
@@ -158,12 +163,12 @@
                   </dependency>
                </dependencies>
                <instances>
-                  <instance name="LPUART0" uuid="e1caad97-5593-421e-844d-a1170178e8eb" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="polling" peripheral="LPUART0" enabled="true" comment="" custom_name_enabled="false">
+                  <instance name="LPUART0" uuid="e1caad97-5593-421e-844d-a1170178e8eb" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="interrupts" peripheral="LPUART0" enabled="true" comment="" custom_name_enabled="false">
                      <config_set name="lpuartConfig_t">
                         <struct name="lpuartConfig">
                            <setting name="clockSource" value="LpuartClock"/>
-                           <setting name="lpuartSrcClkFreq" value="custom:8 MHz"/>
-                           <setting name="baudRate_Bps" value="9600"/>
+                           <setting name="lpuartSrcClkFreq" value="BOARD_BootClockRUN"/>
+                           <setting name="baudRate_Bps" value="38400"/>
                            <setting name="parityMode" value="kLPUART_ParityDisabled"/>
                            <setting name="dataBitsCount" value="kLPUART_EightDataBits"/>
                            <setting name="isMsb" value="false"/>
@@ -178,6 +183,22 @@
                            <setting name="rxIdleConfig" value="kLPUART_IdleCharacter128"/>
                            <setting name="enableTx" value="true"/>
                            <setting name="enableRx" value="true"/>
+                        </struct>
+                     </config_set>
+                     <config_set name="interruptsCfg">
+                        <set name="interrupts">
+                           <selected>
+                              <id>kLPUART_RxDataRegFullInterruptEnable</id>
+                           </selected>
+                        </set>
+                        <struct name="interrupt_vectors">
+                           <setting name="enable_rx_tx_irq" value="true"/>
+                           <struct name="interrupt_rx_tx">
+                              <setting name="IRQn" value="LPUART0_IRQn"/>
+                              <setting name="enable_priority" value="false"/>
+                              <setting name="priority" value="0"/>
+                              <setting name="enable_custom_name" value="false"/>
+                           </struct>
                         </struct>
                      </config_set>
                   </instance>

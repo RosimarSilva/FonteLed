@@ -1,3 +1,5 @@
-peripherals.c:97:6:LPUART0_init	8	static
-peripherals.c:104:6:BOARD_InitPeripherals	8	static
-peripherals.c:113:6:BOARD_InitBootPeripherals	8	static
+core_cm0plus.h:733:22:__NVIC_EnableIRQ	16	static
+fsl_common.h:414:28:EnableIRQ	16	static
+peripherals.c:106:6:LPUART0_init	8	static
+peripherals.c:116:6:BOARD_InitPeripherals	8	static
+peripherals.c:125:6:BOARD_InitBootPeripherals	8	static

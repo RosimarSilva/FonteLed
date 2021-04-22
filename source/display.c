@@ -89,7 +89,7 @@ void requisicao_f80(unsigned int valor, unsigned char registrador)
 {
    unsigned int contbytes;
    unsigned char quociente, resto;      // auxiliares para mandar endereco de 16 bits em dois caracteres de 8 bits
-   unsigned int i;       // indice de vetor
+
    uint8_t frameenv[10];
 
    uint8_t ch;
@@ -126,18 +126,8 @@ void requisicao_f80(unsigned int valor, unsigned char registrador)
    contbytes++;     // byte do frameenv[2]
    frameenv[2] = contbytes - 3;
 
-
-   i = 0;
    LPUART_WriteBlocking(LPUART0, frameenv, sizeof(frameenv) - 1);
- //  while (contbytes > 0)      // transmite o frame, byte a byte, desde o endereco até o crc
-	// while((kLPUART_TxDataRegEmptyFlag & LPUART_GetStatusFlags(LPUART0)) &&(contbytes > 0))
-   {
-	//   LPUART_WriteByte(LPUART0, frameenv[i]);
-    //  i++;   contbytes--;
 
-      LPUART_ReadBlocking(LPUART0, &ch, 1);
-      LPUART_WriteBlocking(LPUART0, &ch, 1);
-   }
 }
 /****************************************************************************/
 // rotina que vai ler um registrador do display
@@ -146,7 +136,6 @@ void requisicao_f81(unsigned char adress)
 {
    unsigned int tentativas;            // tentativas da serial dar certo
    unsigned int contbytes;
-   unsigned int i;       // indice de vetor
    uint8_t frameenv[10];
 
    tentativas = 3;
@@ -179,25 +168,7 @@ void requisicao_f81(unsigned char adress)
      contbytes++;     // byte do frameenv[2]
      frameenv[2] = contbytes - 3;
 
-
-     i = 0;
-   //  while (contbytes > 0)  // transmite o frame, byte a byte, desde o endereco até o crc
- //   	 while((kLPUART_TxDataRegEmptyFlag & LPUART_GetStatusFlags(LPUART0)) &&(contbytes > 0))
-     {
-  //  	 LPUART_WriteByte(LPUART0, frameenv[i]);
- //       i++;   contbytes--;
-     }
-
-    	   LPUART_WriteBlocking(LPUART0, frameenv, sizeof(frameenv) - 1);
-    	 //  while (contbytes > 0)      // transmite o frame, byte a byte, desde o endereco até o crc
-    		// while((kLPUART_TxDataRegEmptyFlag & LPUART_GetStatusFlags(LPUART0)) &&(contbytes > 0))
-    	   {
-    		//   LPUART_WriteByte(LPUART0, frameenv[i]);
-    	    //  i++;   contbytes--;
-
-    	      LPUART_ReadBlocking(LPUART0, &ch, 1);
-    	      LPUART_WriteBlocking(LPUART0, &ch, 1);
-    	   }
+     LPUART_WriteBlocking(LPUART0, frameenv, sizeof(frameenv) - 1);
 
 
      tentativas--;
@@ -240,26 +211,8 @@ void requisicao_f82(unsigned int value, unsigned int pont)
    contbytes++;     // byte do frameenv[2]
    frameenv[2] = contbytes - 3;
 
+   LPUART_WriteBlocking(LPUART0, frameenv, sizeof(frameenv) - 1);
 
-
-   i = 0;
-  // while (contbytes > 0)  // transmite o frame, byte a byte, desde o endereco até o crc
-//	   while((kLPUART_TxDataRegEmptyFlag & LPUART_GetStatusFlags(LPUART0)) &&(contbytes > 0))
-   {
-	//  LPUART_WriteByte(LPUART0, frameenv[i]);
-  //    i++;   contbytes--;
-   }
-
-	   LPUART_WriteBlocking(LPUART0, frameenv, sizeof(frameenv) - 1);
-	 //  while (contbytes > 0)      // transmite o frame, byte a byte, desde o endereco até o crc
-		// while((kLPUART_TxDataRegEmptyFlag & LPUART_GetStatusFlags(LPUART0)) &&(contbytes > 0))
-	   {
-		//   LPUART_WriteByte(LPUART0, frameenv[i]);
-	    //  i++;   contbytes--;
-
-	      LPUART_ReadBlocking(LPUART0, &ch, 1);
-	      LPUART_WriteBlocking(LPUART0, &ch, 1);
-	   }
 
 
 }
@@ -301,26 +254,7 @@ void requisicao_f83(unsigned int pont)
      frameenv[2] = contbytes - 3;
 
      ///// transmissao do frame
-
-
-     i = 0;
- //    while (contbytes > 0)  // transmite o frame, byte a byte, desde o endereco até o crc
- //   	 while((kLPUART_TxDataRegEmptyFlag & LPUART_GetStatusFlags(LPUART0)) &&(contbytes > 0))
-     {
-   // 	 LPUART_WriteByte(LPUART0, frameenv[i]);
- //       i++;   contbytes--;
-     }
-
-    	   LPUART_WriteBlocking(LPUART0, frameenv, sizeof(frameenv) - 1);
-    	 //  while (contbytes > 0)      // transmite o frame, byte a byte, desde o endereco até o crc
-    		// while((kLPUART_TxDataRegEmptyFlag & LPUART_GetStatusFlags(LPUART0)) &&(contbytes > 0))
-    	   {
-    		//   LPUART_WriteByte(LPUART0, frameenv[i]);
-    	    //  i++;   contbytes--;
-
-    	      LPUART_ReadBlocking(LPUART0, &ch, 1);
-    	      LPUART_WriteBlocking(LPUART0, &ch, 1);
-    	   }
+     LPUART_WriteBlocking(LPUART0, frameenv, sizeof(frameenv) - 1);
 
 
       tentativas--;

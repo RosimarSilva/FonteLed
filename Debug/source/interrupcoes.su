@@ -1,2 +1,2 @@
 fsl_lpuart.h:601:23:LPUART_ReadByte	24	static
-interrupcoes.c:23:6:LPUART0_SERIAL_RX_TX_IRQHANDLER	24	static
+interrupcoes.c:23:6:LPUART0_IRQHandler	24	static
