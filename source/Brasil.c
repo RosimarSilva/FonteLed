@@ -38,109 +38,43 @@
 #include "pin_mux.h"
 #include "clock_config.h"
 #include "MKE15Z4.h"
+#include "configs.h"
+#include "fsl_lpuart.h"
 /* TODO: insert other include files here. */
+
+#define DEMO_LPUART LPUART0
 
 /* TODO: insert other definitions and declarations here. */
 
-/*
- * @brief   Application entry point.
- */
-
-/* LPUART0_IRQn interrupt handler */
-
-/* LPUART0_IRQn interrupt handler */
-uint8_t brasil[10];
-uint8_t i,pont = 0,finally;
-uint8_t rec,j;
-
-typedef struct _dataDisplay
-{
-	uint8_t highByte;
-	uint8_t lowByte;
-	uint8_t ByteLeght;
-	uint8_t dataOne;
-	uint8_t dataTwo;
-	uint8_t dataThree;
-	uint8_t dataFour;
-	uint8_t dataFive;
-	uint8_t dataSix;
-	uint8_t dataSeven;
-
-	uint8_t byteDisp;
-
-}dataDisplay;
-
-uint8_t  pontDisp;
-
-void LPUART0_SERIAL_RX_TX_IRQHANDLER(void) {
-  /*  Place your code here */
-	dataDisplay data;
-
-    if ((kLPUART_RxDataRegFullFlag)&LPUART_GetStatusFlags(LPUART0))
-    {
-
-    	switch(pontDisp)
-    	{
-    		case 0: data.highByte = LPUART_ReadByte(LPUART0); break;
-
-    		case 1: data.lowByte = LPUART_ReadByte(LPUART0);break;
-
-    		case 2: {data.ByteLeght = LPUART_ReadByte(LPUART0); data.byteDisp = data.ByteLeght + 3;}break;
-
-    		case 3: data.dataOne = LPUART_ReadByte(LPUART0);break;
-
-    		case 4: data.dataTwo = LPUART_ReadByte(LPUART0);break;
-
-    		case 5: data.dataThree = LPUART_ReadByte(LPUART0);break;
-
-    		case 6: data.dataFour = LPUART_ReadByte(LPUART0);break;
-
-    		case 7: data.dataFive = LPUART_ReadByte(LPUART0);break;
-
-    		case 8: data.dataSix = LPUART_ReadByte(LPUART0);break;
-
-    		case 9: data.dataSeven = LPUART_ReadByte(LPUART0);break;
-
-    	}
-
-    	pontDisp++;
-
-    	if(pontDisp > 3)
-    	{
-    		if(pontDisp == data.byteDisp)
-    		{
-    			pontDisp = 0;
-
-    			data.byteDisp = 0;
-    		}
-    	}
 
 
-    }
-
-  /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F
-     Store immediate overlapping exception return operation might vector to incorrect interrupt. */
-  #if defined __CORTEX_M && (__CORTEX_M == 4U)
-    __DSB();
-  #endif
-}
-
+extern uint8_t tela;
 int main(void) {
+
   	/* Init board hardware. */
     BOARD_InitBootPins();
     BOARD_InitBootClocks();
     BOARD_InitBootPeripherals();
 
-    printf("Hello World\n");
+ printf("Hello World\n");
 
     /* Force the counter to be placed into memory. */
     volatile static int i = 0 ;
     /* Enter an infinite loop, just incrementing a counter. */
+
+
+    go_tela(4);
     while(1) {
-        i++ ;
-        /* 'Dummy' NOP to allow source level single stepping of
-            tight while() loop */
-        __asm volatile ("nop");
+    	 go_tela(4);
+    	//for(i = 0;i<=30;++i)go_tela(i);
+    	while(tela == 12)
+    	{
+
+    	}
+    	while(tela == 2)
+    	{
+
+    	}
     }
     return 0 ;
 }

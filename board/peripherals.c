@@ -49,7 +49,7 @@ component:
 instance:
 - name: 'LPUART0'
 - type: 'lpuart'
-- mode: 'interrupts'
+- mode: 'polling'
 - custom_name_enabled: 'false'
 - type_id: 'lpuart_bebe3e12b6ec22bbd14199038f2bf459'
 - functional_group: 'BOARD_InitPeripherals'
@@ -58,8 +58,8 @@ instance:
   - lpuartConfig_t:
     - lpuartConfig:
       - clockSource: 'LpuartClock'
-      - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
-      - baudRate_Bps: '38400'
+      - lpuartSrcClkFreq: 'custom:8 MHz'
+      - baudRate_Bps: '9600'
       - parityMode: 'kLPUART_ParityDisabled'
       - dataBitsCount: 'kLPUART_EightDataBits'
       - isMsb: 'false'
@@ -68,25 +68,16 @@ instance:
       - rxFifoWatermark: '4'
       - enableRxRTS: 'false'
       - enableTxCTS: 'false'
-      - txCtsSource: 'kLPUART_CtsSourceMatchResult'
+      - txCtsSource: 'kLPUART_CtsSourcePin'
       - txCtsConfig: 'kLPUART_CtsSampleAtStart'
-      - rxIdleType: 'kLPUART_IdleTypeStopBit'
+      - rxIdleType: 'kLPUART_IdleTypeStartBit'
       - rxIdleConfig: 'kLPUART_IdleCharacter128'
       - enableTx: 'true'
       - enableRx: 'true'
-  - interruptsCfg:
-    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable'
-    - interrupt_vectors:
-      - enable_rx_tx_irq: 'true'
-      - interrupt_rx_tx:
-        - IRQn: 'LPUART0_IRQn'
-        - enable_priority: 'false'
-        - priority: '0'
-        - enable_custom_name: 'false'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const lpuart_config_t LPUART0_config = {
-  .baudRate_Bps = 38400,
+  .baudRate_Bps = 9600,
   .parityMode = kLPUART_ParityDisabled,
   .dataBitsCount = kLPUART_EightDataBits,
   .isMsb = false,
@@ -95,9 +86,9 @@ const lpuart_config_t LPUART0_config = {
   .rxFifoWatermark = 4,
   .enableRxRTS = false,
   .enableTxCTS = false,
-  .txCtsSource = kLPUART_CtsSourceMatchResult,
+  .txCtsSource = kLPUART_CtsSourcePin,
   .txCtsConfig = kLPUART_CtsSampleAtStart,
-  .rxIdleType = kLPUART_IdleTypeStopBit,
+  .rxIdleType = kLPUART_IdleTypeStartBit,
   .rxIdleConfig = kLPUART_IdleCharacter128,
   .enableTx = true,
   .enableRx = true
@@ -105,9 +96,6 @@ const lpuart_config_t LPUART0_config = {
 
 void LPUART0_init(void) {
   LPUART_Init(LPUART0_PERIPHERAL, &LPUART0_config, LPUART0_CLOCK_SOURCE);
-  LPUART_EnableInterrupts(LPUART0_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable);
-  /* Enable interrupt LPUART0_IRQn request in the NVIC */
-  EnableIRQ(LPUART0_SERIAL_RX_TX_IRQN);
 }
 
 /***********************************************************************************************************************

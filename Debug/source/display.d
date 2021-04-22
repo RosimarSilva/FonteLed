@@ -1,4 +1,4 @@
-source/Brasil.o source/Brasil.d: ../source/Brasil.c \
+source/display.o source/display.d: ../source/display.c \
  C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\board/board.h \
  C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\board/peripherals.h \
  C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\drivers/fsl_common.h \
