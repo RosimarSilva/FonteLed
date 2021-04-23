@@ -113,12 +113,42 @@ void LPUART0_init(void) {
 }
 
 /***********************************************************************************************************************
+ * GPIOE initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'GPIOE'
+- type: 'gpio'
+- mode: 'GPIO'
+- custom_name_enabled: 'false'
+- type_id: 'gpio_be9de87e5addb6b0f416d9acbab34797'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'GPIOE'
+- config_sets:
+  - fsl_gpio:
+    - enable_irq: 'false'
+    - port_interrupt:
+      - IRQn: 'PORTAE_IRQn'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
+    - quick_selection: 'QS_GPIO_1'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+
+void GPIOE_init(void) {
+  /* Make sure, the clock gate for port E is enabled (e. g. in pin_mux.c) */
+}
+
+/***********************************************************************************************************************
  * Initialization functions
  **********************************************************************************************************************/
 void BOARD_InitPeripherals(void)
 {
   /* Initialize components */
   LPUART0_init();
+  GPIOE_init();
 }
 
 /***********************************************************************************************************************

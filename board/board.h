@@ -52,6 +52,10 @@ extern "C" {
  */
 void BOARD_InitDebugConsole(void);
 
+//#define On_Off_PutVal(output)          \
+//GPIO_WritePinOutput(GPIOE, 10, output);\
+//GPIOE->PDDR |= (1U << 0)
+
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */

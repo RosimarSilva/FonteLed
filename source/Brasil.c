@@ -59,17 +59,20 @@ int main(void) {
 
 	//
 
+
+
     BOARD_InitBootPins();
     BOARD_InitBootClocks();
     BOARD_InitBootPeripherals();
 
+  //  init_timer_milisecond();
     var.tela = 19;
     requisicao_f82(0, 0x0C);
 
     go_tela(var.tela);
 
     ftm_init();
-
+  //  On_Off_PutVal(0);
 
 
     while(1) {
@@ -98,8 +101,8 @@ void telaUm(void)
 	while(var.tela == 19)
 	{
 		if(chu)
-		{
-			set_dutycycle(var.intensidade);
+		{	set_dutycycle(var.intensidade);
+
 			chu = 0;
 		}
 

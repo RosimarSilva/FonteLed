@@ -36,7 +36,6 @@ processor_version: 7.0.2
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
-#define SCG_LPFLL_DISABLE                                 0U  /*!< LPFLL clock disabled */
 
 /*******************************************************************************
  * Variables
@@ -111,15 +110,16 @@ called_from_default_init: true
 outputs:
 - {id: Bus_clock.outFreq, value: 24 MHz}
 - {id: Core_clock.outFreq, value: 48 MHz}
-- {id: FIRCDIV2_CLK.outFreq, value: 750 kHz}
+- {id: FIRCDIV2_CLK.outFreq, value: 48 MHz}
+- {id: FLLDIV2_CLK.outFreq, value: 24 MHz}
 - {id: Flash_clock.outFreq, value: 24 MHz}
 - {id: LPO1KCLK.outFreq, value: 1 kHz}
 - {id: LPO_clock.outFreq, value: 128 kHz}
-- {id: PCC.PCC_ADC0_CLK.outFreq, value: 8 MHz}
-- {id: PCC.PCC_LPUART0_CLK.outFreq, value: 8 MHz}
-- {id: PCC.PCC_LPUART1_CLK.outFreq, value: 8 MHz}
-- {id: PCC.PCC_LPUART2_CLK.outFreq, value: 8 MHz}
-- {id: SIRCDIV2_CLK.outFreq, value: 8 MHz}
+- {id: PCC.PCC_ADC0_CLK.outFreq, value: 4 MHz}
+- {id: PCC.PCC_LPUART0_CLK.outFreq, value: 4 MHz}
+- {id: PCC.PCC_LPUART1_CLK.outFreq, value: 4 MHz}
+- {id: PCC.PCC_LPUART2_CLK.outFreq, value: 4 MHz}
+- {id: SIRCDIV2_CLK.outFreq, value: 4 MHz}
 - {id: SIRC_CLK.outFreq, value: 8 MHz}
 - {id: System_clock.outFreq, value: 48 MHz}
 settings:
@@ -129,9 +129,12 @@ settings:
 - {id: PCC.PCC_LPUART2_SEL.sel, value: SCG.SIRCDIV2_CLK}
 - {id: SCG.DIVCORE.scale, value: '1', locked: true}
 - {id: SCG.DIVSLOW.scale, value: '2', locked: true}
-- {id: SCG.FIRCDIV2.scale, value: '64', locked: true}
-- {id: SCG.SIRCDIV2.scale, value: '1', locked: true}
+- {id: SCG.FIRCDIV2.scale, value: '1', locked: true}
+- {id: SCG.LPFLLDIV2.scale, value: '2', locked: true}
+- {id: SCG.SIRCDIV2.scale, value: '2', locked: true}
 - {id: SCG.SOSCDIV2.scale, value: '1', locked: true}
+- {id: SCG.TRIMDIV.scale, value: '4'}
+- {id: SCG_LPFLLCSR_LPFLLEN_CFG, value: Enabled}
 - {id: SCG_SOSCCSR_SOSCEN_CFG, value: Enabled}
 - {id: SCG_SOSCCSR_SOSCLPEN_CFG, value: Enabled}
 - {id: SCG_SOSCCSR_SOSCSTEN_CFG, value: Enabled}
@@ -160,20 +163,20 @@ const scg_sosc_config_t g_scgSysOscConfig_BOARD_BootClockRUN =
 const scg_sirc_config_t g_scgSircConfig_BOARD_BootClockRUN =
     {
         .enableMode = kSCG_SircEnable | kSCG_SircEnableInLowPower,/* Enable SIRC clock, Enable SIRC in low power mode */
-        .div2 = kSCG_AsyncClkDivBy1,              /* Slow IRC Clock Divider 2: divided by 1 */
+        .div2 = kSCG_AsyncClkDivBy2,              /* Slow IRC Clock Divider 2: divided by 2 */
         .range = kSCG_SircRangeHigh,              /* Slow IRC high range clock (8 MHz) */
     };
 const scg_firc_config_t g_scgFircConfig_BOARD_BootClockRUN =
     {
         .enableMode = kSCG_FircEnable,            /* Enable FIRC clock */
-        .div2 = kSCG_AsyncClkDivBy64,             /* Fast IRC Clock Divider 2: divided by 64 */
+        .div2 = kSCG_AsyncClkDivBy1,              /* Fast IRC Clock Divider 2: divided by 1 */
         .range = kSCG_FircRange48M,               /* Fast IRC is trimmed to 48MHz */
         .trimConfig = NULL,                       /* Fast IRC Trim disabled */
     };
 const scg_lpfll_config_t g_scgLpFllConfig_BOARD_BootClockRUN =
     {
-        .enableMode = SCG_LPFLL_DISABLE,          /* LPFLL clock disabled */
-        .div2 = kSCG_AsyncClkDisable,             /* Low Power FLL Clock Divider 2: Clock output is disabled */
+        .enableMode = kSCG_LpFllEnable,           /* Enable LPFLL clock */
+        .div2 = kSCG_AsyncClkDivBy2,              /* Low Power FLL Clock Divider 2: divided by 2 */
         .range = kSCG_LpFllRange48M,              /* LPFLL is trimmed to 48MHz */
         .trimConfig = NULL,
     };
@@ -188,6 +191,8 @@ void BOARD_BootClockRUN(void)
     CLOCK_CONFIG_FircSafeConfig(&g_scgFircConfig_BOARD_BootClockRUN);
     /* Init SIRC. */
     CLOCK_InitSirc(&g_scgSircConfig_BOARD_BootClockRUN);
+    /* Init LPFLL. */
+    CLOCK_InitLpFll(&g_scgLpFllConfig_BOARD_BootClockRUN);
     /* Set SCG to FIRC mode. */
     CLOCK_SetRunModeSysClkConfig(&g_sysClkConfig_BOARD_BootClockRUN);
     /* Wait for clock source switch finished. */

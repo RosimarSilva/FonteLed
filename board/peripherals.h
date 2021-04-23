@@ -12,6 +12,8 @@
 #include "fsl_common.h"
 #include "fsl_lpuart.h"
 #include "fsl_clock.h"
+#include "fsl_gpio.h"
+#include "fsl_port.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -24,13 +26,15 @@ extern "C" {
 /* Definition of peripheral ID */
 #define LPUART0_PERIPHERAL LPUART0
 /* Definition of the clock source frequency */
-#define LPUART0_CLOCK_SOURCE 8000000UL
+#define LPUART0_CLOCK_SOURCE 4000000UL
 /* LPUART0 interrupt vector ID (number). */
 #define LPUART0_SERIAL_RX_TX_IRQN LPUART0_IRQn
 /* LPUART0 interrupt vector priority. */
 #define LPUART0_SERIAL_RX_TX_IRQ_PRIORITY 3
 /* LPUART0 interrupt handler identifier. */
 #define LPUART0_SERIAL_RX_TX_IRQHANDLER LPUART0_IRQHandler
+/* Alias for GPIOE peripheral */
+#define GPIOE_GPIO GPIOE
 
 /***********************************************************************************************************************
  * Global variables

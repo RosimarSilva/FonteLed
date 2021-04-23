@@ -14,6 +14,8 @@ source/display.o source/display.d: ../source/display.c \
  C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\drivers/fsl_common.h \
  C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\drivers/fsl_lpuart.h \
  C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\drivers/fsl_clock.h \
+ C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\drivers/fsl_gpio.h \
+ C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\board/fsl_port.h \
  C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\board/pin_mux.h \
  C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\board/clock_config.h \
  C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\device/MKE15Z4.h \
@@ -48,6 +50,10 @@ C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\drivers/fs
 C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\drivers/fsl_lpuart.h:
 
 C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\drivers/fsl_clock.h:
+
+C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\drivers/fsl_gpio.h:
+
+C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\board/fsl_port.h:
 
 C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\board/pin_mux.h:
 

@@ -5,8 +5,8 @@ fsl_ftm.h:633:20:FTM_SetTimerPeriod	16	static
 fsl_ftm.h:667:20:FTM_StartTimer	24	static
 fsl_ftm.h:957:20:FTM_SetSoftwareTrigger	16	static
 interrupcoes.c:23:6:LPUART0_IRQHandler	24	static
-interrupcoes.c:77:6:FTM0_IRQHANDLER	16	static
+interrupcoes.c:77:6:FTM1_IRQHANDLER	16	static
 interrupcoes.c:92:6:ftm_init	16	static
 interrupcoes.c:109:6:init_timer_milisecond	48	static
 interrupcoes.c:134:6:set_dutycycle	16	static
-interrupcoes.c:176:6:delay	16	static
+interrupcoes.c:184:6:delay	16	static

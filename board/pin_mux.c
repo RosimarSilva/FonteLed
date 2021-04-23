@@ -16,12 +16,14 @@ pin_labels:
 - {pin_num: '27', pin_signal: ADC0_SE4/PTB0/LPUART0_RX/LPSPI0_PCS0/LPTMR0_ALT3/PWT_IN3, label: DisplayRx, identifier: DisplayRx}
 - {pin_num: '26', pin_signal: ADC0_SE5/PTB1/LPUART0_TX/LPSPI0_SOUT/TCLK0, label: DisplayTx, identifier: DisplayTx}
 - {pin_num: '25', pin_signal: ADC0_SE6/TSI0_CH20/PTB2/FTM1_CH0/LPSPI0_SCK/FTM1_QD_PHB/TRGMUX_IN3, label: Pwm, identifier: Pwm}
+- {pin_num: '4', pin_signal: TSI0_CH2/PTE10/CLKOUT, label: ONOFF, identifier: ONOFF}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
 
 #include "fsl_common.h"
 #include "fsl_port.h"
+#include "fsl_gpio.h"
 #include "pin_mux.h"
 
 /* FUNCTION ************************************************************************************************************
@@ -44,6 +46,7 @@ BOARD_InitPins:
   - {pin_num: '27', peripheral: LPUART0, signal: RX, pin_signal: ADC0_SE4/PTB0/LPUART0_RX/LPSPI0_PCS0/LPTMR0_ALT3/PWT_IN3}
   - {pin_num: '26', peripheral: LPUART0, signal: TX, pin_signal: ADC0_SE5/PTB1/LPUART0_TX/LPSPI0_SOUT/TCLK0}
   - {pin_num: '25', peripheral: FTM1, signal: 'CH, 0', pin_signal: ADC0_SE6/TSI0_CH20/PTB2/FTM1_CH0/LPSPI0_SCK/FTM1_QD_PHB/TRGMUX_IN3, direction: OUTPUT}
+  - {pin_num: '4', peripheral: GPIOE, signal: 'GPIO, 10', pin_signal: TSI0_CH2/PTE10/CLKOUT, direction: OUTPUT, gpio_init_state: 'false'}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -58,6 +61,15 @@ void BOARD_InitPins(void)
 {
     /* Clock Gate Control: Clock enabled. The current clock selection and divider options are locked. */
     CLOCK_EnableClock(kCLOCK_PortB);
+    /* Clock Gate Control: Clock enabled. The current clock selection and divider options are locked. */
+    CLOCK_EnableClock(kCLOCK_PortE);
+
+    gpio_pin_config_t ONOFF_config = {
+        .pinDirection = kGPIO_DigitalOutput,
+        .outputLogic = 0U
+    };
+    /* Initialize GPIO functionality on pin PTE10 (pin 4)  */
+    GPIO_PinInit(BOARD_INITPINS_ONOFF_GPIO, BOARD_INITPINS_ONOFF_PIN, &ONOFF_config);
 
     /* PORTB0 (pin 27) is configured as LPUART0_RX */
     PORT_SetPinMux(BOARD_INITPINS_DisplayRx_PORT, BOARD_INITPINS_DisplayRx_PIN, kPORT_MuxAlt2);
@@ -67,6 +79,9 @@ void BOARD_InitPins(void)
 
     /* PORTB2 (pin 25) is configured as FTM1_CH0 */
     PORT_SetPinMux(BOARD_INITPINS_Pwm_PORT, BOARD_INITPINS_Pwm_PIN, kPORT_MuxAlt2);
+
+    /* PORTE10 (pin 4) is configured as PTE10 */
+    PORT_SetPinMux(BOARD_INITPINS_ONOFF_PORT, BOARD_INITPINS_ONOFF_PIN, kPORT_MuxAsGpio);
 }
 /***********************************************************************************************************************
  * EOF

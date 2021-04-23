@@ -43,6 +43,14 @@ void BOARD_InitBootPins(void);
 #define BOARD_INITPINS_Pwm_PIN 2U     /*!<@brief PORTB pin index: 2 */
                                       /* @} */
 
+/*! @name PORTE10 (number 4), ONOFF
+  @{ */
+#define BOARD_INITPINS_ONOFF_FGPIO FGPIOE /*!<@brief FGPIO device name: FGPIOE */
+#define BOARD_INITPINS_ONOFF_GPIO GPIOE /*!<@brief GPIO device name: GPIOE */
+#define BOARD_INITPINS_ONOFF_PORT PORTE /*!<@brief PORT device name: PORTE */
+#define BOARD_INITPINS_ONOFF_PIN 10U    /*!<@brief PORTE pin index: 10 */
+                                        /* @} */
+
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
  *

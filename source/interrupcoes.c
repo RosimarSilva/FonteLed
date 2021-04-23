@@ -74,7 +74,7 @@ void LPUART0_SERIAL_RX_TX_IRQHANDLER(void){
   #endif
 }
 /* FTM1_IRQn interrupt handler */
-void FTM0_IRQHANDLER(void) {
+void FTM1_IRQHANDLER(void) {
   /*  Place your code here */
 	int timer;
 
@@ -100,7 +100,7 @@ void ftm_init(void)
      /* Initialize FTM module */
      FTM_Init(FTM1, &ftmInfo);
 
-     FTM_SetupPwm(FTM1, &ftmParam, 1U, kFTM_CenterAlignedPwm, 400U, CLOCK_GetFreq(kCLOCK_CoreSysClk));//1U
+     FTM_SetupPwm(FTM1, &ftmParam, 1U, kFTM_EdgeAlignedPwm,400U, CLOCK_GetFreq(kCLOCK_ScgSircAsyncDiv2Clk));//1U
 
     FTM_StartTimer(FTM1, kFTM_SystemClock);
 
@@ -113,21 +113,21 @@ void init_timer_milisecond(void)// inicializa a interrupção de 1 milissegundo
 	FTM_GetDefaultConfig(&ftmInfo);
 
 	    /* Divide FTM clock by 4 */
-	    ftmInfo.prescale = kFTM_Prescale_Divide_4;
+	    ftmInfo.prescale = kFTM_Prescale_Divide_1;
 
 	    /* Initialize FTM module */
-	    FTM_Init(FTM0, &ftmInfo);
+	    FTM_Init(FTM1, &ftmInfo);
 
 	    /*
 	     * Set timer period.
 	    */
-	    FTM_SetTimerPeriod(FTM0, USEC_TO_COUNT(1000U,CLOCK_GetFreq(kCLOCK_ScgSircClk)/4));
+	    FTM_SetTimerPeriod(FTM1, USEC_TO_COUNT(1000U,CLOCK_GetFreq(kCLOCK_CoreSysClk)/4));
 
-	    FTM_EnableInterrupts(FTM0, kFTM_TimeOverflowInterruptEnable);
+	    FTM_EnableInterrupts(FTM1, kFTM_TimeOverflowInterruptEnable);
 
-	    EnableIRQ(FTM0_IRQn);
+	    EnableIRQ(FTM1_IRQn);
 
-	    FTM_StartTimer(FTM0, kFTM_FixedClock);
+	    FTM_StartTimer(FTM1, kFTM_SystemClock);
 }
 
 /****************************************************************************/
@@ -163,6 +163,14 @@ void set_dutycycle(uint8_t param )
  //    FTM_UpdateChnlEdgeLevelSelect(FTM1, kFTM_Chnl_0, pwmLevel);
 
      /* Delay to view the updated PWM dutycycle */
+     delay();
+     delay();
+     delay();
+     delay();
+     delay();
+     delay();
+     delay();
+     delay();
      delay();
      delay();
      delay();
