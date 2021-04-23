@@ -17,7 +17,8 @@ source/Brasil.o source/Brasil.d: ../source/Brasil.c \
  C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\board/pin_mux.h \
  C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\board/clock_config.h \
  C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\device/MKE15Z4.h \
- ../source/configs.h
+ ../source/configs.h \
+ C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\drivers/fsl_ftm.h
 
 C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\board/board.h:
 
@@ -56,3 +57,5 @@ C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\board/cloc
 C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\device/MKE15Z4.h:
 
 ../source/configs.h:
+
+C:\Users\Rosimar\Documents\MCUXpressoIDE_11.1.1_3241\workspace\Brasil\drivers/fsl_ftm.h:

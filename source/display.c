@@ -14,7 +14,12 @@
 #include "configs.h"
 #include "fsl_lpuart.h"
 
-uint8_t tela;
+//uint8_t tela;
+
+extern struct{
+	uint8_t tela;
+	uint8_t intensidade;
+}var;
 
 /****************************************************************************
  * Faz a leitura dos comandos da serial*********************************
@@ -35,6 +40,7 @@ void leituraDisplay(const dataDisplay *data)
 /****************************************************************************
  ********Verifica qual o comando pedido pelo display*********************************
  */
+extern bool chu;
 void executaFuncao(uint8_t data,uint8_t vp,uint8_t value)
 {
 	dataDisplay dado;
@@ -46,13 +52,15 @@ void executaFuncao(uint8_t data,uint8_t vp,uint8_t value)
 		{
 			switch(vp)
 			{
-				case 0x0A: tela = value;break;
+				case 0x00: var.tela = value;break;
+				case 0x0c:{ var.intensidade = value;chu = 1;}break;
 			}
 
 
 		}break;
 	}
-	 printf("Hello World %d\n", tela);
+
+	// printf("Chama papapi %d\n", var.tela);
 }
 
 /**************************************************************/
@@ -69,7 +77,7 @@ void go_tela(unsigned int t)
    requisicao_f81(0x03);
 
    tent = 2;
-   while ((tela != t) && (tent > 0))
+   while ((var.tela != t) && (tent > 0))
    {
 
       requisicao_f80(t, 0x03);            // vai para tela t

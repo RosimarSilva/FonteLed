@@ -40,47 +40,106 @@
 #include "MKE15Z4.h"
 #include "configs.h"
 #include "fsl_lpuart.h"
+#include "fsl_ftm.h"
 /* TODO: insert other include files here. */
 
-#define DEMO_LPUART LPUART0
+struct{
+	uint8_t tela;
+	uint8_t intensidade;
+}var;
 
 /* TODO: insert other definitions and declarations here. */
 
-
-
-extern uint8_t tela;
+//extern uint8_t tela;
+uint8_t m_tela;
+bool chu;
 int main(void) {
 
   	/* Init board hardware. */
+
+	//
+
     BOARD_InitBootPins();
     BOARD_InitBootClocks();
     BOARD_InitBootPeripherals();
 
- printf("Hello World\n");
+    var.tela = 19;
+    requisicao_f82(0, 0x0C);
 
-    /* Force the counter to be placed into memory. */
-    volatile static long i = 0,j=0 ;
-    /* Enter an infinite loop, just incrementing a counter. */
+    go_tela(var.tela);
+
+    ftm_init();
 
 
-    go_tela(15);
+
     while(1) {
-    	// go_tela(4);
-   	for(i = 0;i<=3000000;++i)
-    	{}
-    	++j;
-    	if(j>30) j =0;
-    	go_tela(j);
-    	while(tela == 12)
-    	{
 
-    	}
-    	while(tela == 2)
-    	{
-
-    	}
+    	screen();
     }
     return 0 ;
+}
+
+void screen(void)
+{
+	switch(var.tela)
+	{
+		case 19:telaUm();break;
+		case 12:telaMenu();break;
+		case 25:telaCalendario();break;
+		case 14:
+		case 15:telaSenha();break;
+		case 61:telaSistemInfo();break;
+	}
+}
+
+void telaUm(void)
+{
+	go_tela(var.tela);
+	while(var.tela == 19)
+	{
+		if(chu)
+		{
+			set_dutycycle(var.intensidade);
+			chu = 0;
+		}
+
+	}
+}
+
+void telaMenu(void)
+{
+	go_tela(var.tela);
+	while(var.tela == 12)
+	{
+
+	}
+}
+
+void telaCalendario(void)
+{
+	go_tela(var.tela);
+	while(var.tela == 25)
+	{
+
+	}
+}
+
+void telaSenha(void)
+{
+	go_tela(var.tela);
+	while((var.tela == 15)||(var.tela == 14))
+	{
+
+	}
+}
+
+void telaSistemInfo(void)
+{
+	go_tela(var.tela);
+	while(var.tela == 61)
+	{
+
+	}
 }
 
 

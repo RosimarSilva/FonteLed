@@ -13,9 +13,9 @@
 #include "MKE15Z4.h"
 #include "configs.h"
 #include "fsl_lpuart.h"
+#include "fsl_ftm.h"
 /* TODO: insert other include files here. */
 
-/* TODO: insert other definitions and declarations here. */
 
 /*******************************************************************************************************************
  * ****************Interrupções da serial do display****************************************************************/
@@ -73,3 +73,112 @@ void LPUART0_SERIAL_RX_TX_IRQHANDLER(void){
     __DSB();
   #endif
 }
+/* FTM1_IRQn interrupt handler */
+void FTM0_IRQHANDLER(void) {
+  /*  Place your code here */
+	int timer;
+
+	if(--timer <= 0)timer = 0;
+
+  #if defined __CORTEX_M && (__CORTEX_M == 4U)
+    __DSB();
+  #endif
+}
+
+ftm_config_t ftmInfo;
+ftm_chnl_pwm_signal_param_t ftmParam;
+uint8_t Dutycycle = 50;
+ftm_pwm_level_select_t pwmLevel = kFTM_LowTrue;
+void ftm_init(void)
+{
+    ftmParam.chnlNumber =  kFTM_Chnl_0;
+    ftmParam.level = pwmLevel;
+    ftmParam.dutyCyclePercent = Dutycycle;
+    ftmParam.firstEdgeDelayPercent = 0U;
+
+    FTM_GetDefaultConfig(&ftmInfo);
+     /* Initialize FTM module */
+     FTM_Init(FTM1, &ftmInfo);
+
+     FTM_SetupPwm(FTM1, &ftmParam, 1U, kFTM_CenterAlignedPwm, 400U, CLOCK_GetFreq(kCLOCK_CoreSysClk));//1U
+
+    FTM_StartTimer(FTM1, kFTM_SystemClock);
+
+}
+
+void init_timer_milisecond(void)// inicializa a interrupção de 1 milissegundo
+{
+	ftm_config_t  ftmInfo;
+
+	FTM_GetDefaultConfig(&ftmInfo);
+
+	    /* Divide FTM clock by 4 */
+	    ftmInfo.prescale = kFTM_Prescale_Divide_4;
+
+	    /* Initialize FTM module */
+	    FTM_Init(FTM0, &ftmInfo);
+
+	    /*
+	     * Set timer period.
+	    */
+	    FTM_SetTimerPeriod(FTM0, USEC_TO_COUNT(1000U,CLOCK_GetFreq(kCLOCK_ScgSircClk)/4));
+
+	    FTM_EnableInterrupts(FTM0, kFTM_TimeOverflowInterruptEnable);
+
+	    EnableIRQ(FTM0_IRQn);
+
+	    FTM_StartTimer(FTM0, kFTM_FixedClock);
+}
+
+/****************************************************************************/
+void set_dutycycle(uint8_t param )
+{
+	Dutycycle = param;
+
+	  /* Disable channel output before updating the dutycycle */
+	FTM_UpdateChnlEdgeLevelSelect(FTM1, kFTM_Chnl_0, 0U);
+
+	            /* Update PWM duty cycle */
+	FTM_UpdatePwmDutycycle(FTM1, kFTM_Chnl_0, kFTM_CenterAlignedPwm, Dutycycle);
+
+	            /* Software trigger to update registers */
+	FTM_SetSoftwareTrigger(FTM1, true);
+
+	            /* Start channel output with updated dutycycle */
+	FTM_UpdateChnlEdgeLevelSelect(FTM1, kFTM_Chnl_0, pwmLevel);
+
+    /* Disable interrupt to retain current dutycycle for a few seconds */
+   //  FTM_DisableInterrupts(FTM1, kFTM_Chnl0InterruptEnable);
+
+     /* Disable channel output before updating the dutycycle */
+  //   FTM_UpdateChnlEdgeLevelSelect(FTM1, kFTM_Chnl_0, 0U);
+
+     /* Update PWM duty cycle */
+  //   FTM_UpdatePwmDutycycle(FTM1, kFTM_Chnl_0, kFTM_EdgeAlignedPwm, Dutycycle);
+
+     /* Software trigger to update registers */
+ //    FTM_SetSoftwareTrigger(FTM1, true);
+
+     /* Start channel output with updated dutycycle */
+ //    FTM_UpdateChnlEdgeLevelSelect(FTM1, kFTM_Chnl_0, pwmLevel);
+
+     /* Delay to view the updated PWM dutycycle */
+     delay();
+     delay();
+     delay();
+     delay();
+
+     /* Enable interrupt flag to update PWM dutycycle */
+  //   FTM_EnableInterrupts(FTM1, kFTM_Chnl0InterruptEnable);
+	//delay();
+}
+
+void delay(void)
+{
+    volatile uint32_t i = 0U;
+    for (i = 0U; i < 80000U; ++i)
+    {
+        __asm("NOP"); /* delay */
+    }
+}
+

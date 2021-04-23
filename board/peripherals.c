@@ -59,7 +59,7 @@ instance:
     - lpuartConfig:
       - clockSource: 'LpuartClock'
       - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
-      - baudRate_Bps: '38400'
+      - baudRate_Bps: '9600'
       - parityMode: 'kLPUART_ParityDisabled'
       - dataBitsCount: 'kLPUART_EightDataBits'
       - isMsb: 'false'
@@ -80,13 +80,13 @@ instance:
       - enable_rx_tx_irq: 'true'
       - interrupt_rx_tx:
         - IRQn: 'LPUART0_IRQn'
-        - enable_priority: 'false'
-        - priority: '0'
+        - enable_priority: 'true'
+        - priority: '3'
         - enable_custom_name: 'false'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const lpuart_config_t LPUART0_config = {
-  .baudRate_Bps = 38400,
+  .baudRate_Bps = 9600,
   .parityMode = kLPUART_ParityDisabled,
   .dataBitsCount = kLPUART_EightDataBits,
   .isMsb = false,
@@ -106,6 +106,8 @@ const lpuart_config_t LPUART0_config = {
 void LPUART0_init(void) {
   LPUART_Init(LPUART0_PERIPHERAL, &LPUART0_config, LPUART0_CLOCK_SOURCE);
   LPUART_EnableInterrupts(LPUART0_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable);
+  /* Interrupt vector LPUART0_IRQn priority settings in the NVIC */
+  NVIC_SetPriority(LPUART0_SERIAL_RX_TX_IRQN, LPUART0_SERIAL_RX_TX_IRQ_PRIORITY);
   /* Enable interrupt LPUART0_IRQn request in the NVIC */
   EnableIRQ(LPUART0_SERIAL_RX_TX_IRQN);
 }

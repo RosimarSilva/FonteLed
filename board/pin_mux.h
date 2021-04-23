@@ -37,6 +37,12 @@ void BOARD_InitBootPins(void);
 #define BOARD_INITPINS_DisplayTx_PIN 1U     /*!<@brief PORTB pin index: 1 */
                                             /* @} */
 
+/*! @name PORTB2 (number 25), Pwm
+  @{ */
+#define BOARD_INITPINS_Pwm_PORT PORTB /*!<@brief PORT device name: PORTB */
+#define BOARD_INITPINS_Pwm_PIN 2U     /*!<@brief PORTB pin index: 2 */
+                                      /* @} */
+
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
  *

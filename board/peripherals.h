@@ -27,6 +27,8 @@ extern "C" {
 #define LPUART0_CLOCK_SOURCE 8000000UL
 /* LPUART0 interrupt vector ID (number). */
 #define LPUART0_SERIAL_RX_TX_IRQN LPUART0_IRQn
+/* LPUART0 interrupt vector priority. */
+#define LPUART0_SERIAL_RX_TX_IRQ_PRIORITY 3
 /* LPUART0 interrupt handler identifier. */
 #define LPUART0_SERIAL_RX_TX_IRQHANDLER LPUART0_IRQHandler
 

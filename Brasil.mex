@@ -25,6 +25,7 @@
             <pin_labels>
                <pin_label pin_num="27" pin_signal="ADC0_SE4/PTB0/LPUART0_RX/LPSPI0_PCS0/LPTMR0_ALT3/PWT_IN3" label="DisplayRx" identifier="DisplayRx"/>
                <pin_label pin_num="26" pin_signal="ADC0_SE5/PTB1/LPUART0_TX/LPSPI0_SOUT/TCLK0" label="DisplayTx" identifier="DisplayTx"/>
+               <pin_label pin_num="25" pin_signal="ADC0_SE6/TSI0_CH20/PTB2/FTM1_CH0/LPSPI0_SCK/FTM1_QD_PHB/TRGMUX_IN3" label="Pwm" identifier="Pwm"/>
             </pin_labels>
          </pins_profile>
          <functions_list>
@@ -37,6 +38,11 @@
                </options>
                <dependencies>
                   <dependency resourceType="Peripheral" resourceId="LPUART0" description="Peripheral LPUART0 is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="Peripheral" resourceId="FTM1" description="Peripheral FTM1 is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -55,6 +61,11 @@
                <pins>
                   <pin peripheral="LPUART0" signal="RX" pin_num="27" pin_signal="ADC0_SE4/PTB0/LPUART0_RX/LPSPI0_PCS0/LPTMR0_ALT3/PWT_IN3"/>
                   <pin peripheral="LPUART0" signal="TX" pin_num="26" pin_signal="ADC0_SE5/PTB1/LPUART0_TX/LPSPI0_SOUT/TCLK0"/>
+                  <pin peripheral="FTM1" signal="CH, 0" pin_num="25" pin_signal="ADC0_SE6/TSI0_CH20/PTB2/FTM1_CH0/LPSPI0_SCK/FTM1_QD_PHB/TRGMUX_IN3">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
                </pins>
             </function>
          </functions_list>
@@ -84,7 +95,7 @@
                <clock_outputs>
                   <clock_output id="Bus_clock.outFreq" value="24 MHz" locked="false" accuracy=""/>
                   <clock_output id="Core_clock.outFreq" value="48 MHz" locked="false" accuracy=""/>
-                  <clock_output id="FIRCDIV2_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FIRCDIV2_CLK.outFreq" value="750 kHz" locked="false" accuracy=""/>
                   <clock_output id="Flash_clock.outFreq" value="24 MHz" locked="false" accuracy=""/>
                   <clock_output id="LPO1KCLK.outFreq" value="1 kHz" locked="false" accuracy=""/>
                   <clock_output id="LPO_clock.outFreq" value="128 kHz" locked="false" accuracy=""/>
@@ -103,7 +114,7 @@
                   <setting id="PCC.PCC_LPUART2_SEL.sel" value="SCG.SIRCDIV2_CLK" locked="false"/>
                   <setting id="SCG.DIVCORE.scale" value="1" locked="true"/>
                   <setting id="SCG.DIVSLOW.scale" value="2" locked="true"/>
-                  <setting id="SCG.FIRCDIV2.scale" value="1" locked="true"/>
+                  <setting id="SCG.FIRCDIV2.scale" value="64" locked="true"/>
                   <setting id="SCG.SIRCDIV2.scale" value="1" locked="true"/>
                   <setting id="SCG.SOSCDIV2.scale" value="1" locked="true"/>
                   <setting id="SCG_SOSCCSR_SOSCEN_CFG" value="Enabled" locked="false"/>
@@ -168,7 +179,7 @@
                         <struct name="lpuartConfig">
                            <setting name="clockSource" value="LpuartClock"/>
                            <setting name="lpuartSrcClkFreq" value="BOARD_BootClockRUN"/>
-                           <setting name="baudRate_Bps" value="38400"/>
+                           <setting name="baudRate_Bps" value="9600"/>
                            <setting name="parityMode" value="kLPUART_ParityDisabled"/>
                            <setting name="dataBitsCount" value="kLPUART_EightDataBits"/>
                            <setting name="isMsb" value="false"/>
@@ -195,11 +206,62 @@
                            <setting name="enable_rx_tx_irq" value="true"/>
                            <struct name="interrupt_rx_tx">
                               <setting name="IRQn" value="LPUART0_IRQn"/>
-                              <setting name="enable_priority" value="false"/>
-                              <setting name="priority" value="0"/>
+                              <setting name="enable_priority" value="true"/>
+                              <setting name="priority" value="3"/>
                               <setting name="enable_custom_name" value="false"/>
                            </struct>
                         </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="FTM0" uuid="8e5ba7f1-7f1c-4a25-9af0-b4f3dcbae2d1" type="ftm" type_id="ftm_04a15ae4af2b404bf2ae403c3dbe98b3" mode="CenterAligned" peripheral="FTM0" enabled="false" comment="" custom_name_enabled="false">
+                     <config_set name="ftm_main_config">
+                        <struct name="ftm_config">
+                           <setting name="clockSource" value="kFTM_SystemClock"/>
+                           <setting name="clockSourceFreq" value="GetFreq"/>
+                           <setting name="prescale" value="kFTM_Prescale_Divide_1"/>
+                           <setting name="timerFrequency" value="400"/>
+                           <setting name="bdmMode" value="kFTM_BdmMode_1"/>
+                           <set name="pwmSyncMode">
+                              <selected>
+                                 <id>kFTM_HardwareTrigger_2</id>
+                              </selected>
+                           </set>
+                           <set name="reloadPoints">
+                              <selected>
+                                 <id>kFTM_CntMax</id>
+                              </selected>
+                           </set>
+                           <setting name="faultMode" value="kFTM_Fault_Disable"/>
+                           <setting name="faultFilterValue" value="0"/>
+                           <setting name="deadTimePrescale" value="kFTM_Deadtime_Prescale_16"/>
+                           <setting name="deadTimeValue" value="0"/>
+                           <set name="extTriggers">
+                              <selected/>
+                           </set>
+                           <set name="chnlInitState">
+                              <selected/>
+                           </set>
+                           <set name="chnlPolarity">
+                              <selected/>
+                           </set>
+                           <setting name="useGlobalTimeBase" value="false"/>
+                        </struct>
+                        <set name="timer_interrupts">
+                           <selected>
+                              <id>kFTM_TimeOverflowInterruptEnable</id>
+                           </selected>
+                        </set>
+                        <setting name="enable_irq" value="true"/>
+                        <struct name="ftm_interrupt">
+                           <setting name="IRQn" value="FTM0_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="EnableTimerInInit" value="true"/>
+                     </config_set>
+                     <config_set name="ftm_center_aligned_mode">
+                        <array name="ftm_center_aligned_channels_config"/>
                      </config_set>
                   </instance>
                </instances>
@@ -209,7 +271,7 @@
             <component name="system" uuid="1e125925-dedf-4830-922e-e85a16606763" type_id="system_54b53072540eeeb8f8e9343e71f28176">
                <config_set_global name="global_system_definitions"/>
             </component>
-            <component name="msg" uuid="b1539358-ab15-41fc-8e60-b45ce665a104" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
+            <component name="msg" uuid="bbb1e8ff-5bc0-4ed6-b518-e021f3c5f427" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
                <config_set_global name="global_messages"/>
             </component>
          </components>

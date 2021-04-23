@@ -15,6 +15,7 @@ processor_version: 7.0.2
 pin_labels:
 - {pin_num: '27', pin_signal: ADC0_SE4/PTB0/LPUART0_RX/LPSPI0_PCS0/LPTMR0_ALT3/PWT_IN3, label: DisplayRx, identifier: DisplayRx}
 - {pin_num: '26', pin_signal: ADC0_SE5/PTB1/LPUART0_TX/LPSPI0_SOUT/TCLK0, label: DisplayTx, identifier: DisplayTx}
+- {pin_num: '25', pin_signal: ADC0_SE6/TSI0_CH20/PTB2/FTM1_CH0/LPSPI0_SCK/FTM1_QD_PHB/TRGMUX_IN3, label: Pwm, identifier: Pwm}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -42,6 +43,7 @@ BOARD_InitPins:
 - pin_list:
   - {pin_num: '27', peripheral: LPUART0, signal: RX, pin_signal: ADC0_SE4/PTB0/LPUART0_RX/LPSPI0_PCS0/LPTMR0_ALT3/PWT_IN3}
   - {pin_num: '26', peripheral: LPUART0, signal: TX, pin_signal: ADC0_SE5/PTB1/LPUART0_TX/LPSPI0_SOUT/TCLK0}
+  - {pin_num: '25', peripheral: FTM1, signal: 'CH, 0', pin_signal: ADC0_SE6/TSI0_CH20/PTB2/FTM1_CH0/LPSPI0_SCK/FTM1_QD_PHB/TRGMUX_IN3, direction: OUTPUT}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -62,6 +64,9 @@ void BOARD_InitPins(void)
 
     /* PORTB1 (pin 26) is configured as LPUART0_TX */
     PORT_SetPinMux(BOARD_INITPINS_DisplayTx_PORT, BOARD_INITPINS_DisplayTx_PIN, kPORT_MuxAlt2);
+
+    /* PORTB2 (pin 25) is configured as FTM1_CH0 */
+    PORT_SetPinMux(BOARD_INITPINS_Pwm_PORT, BOARD_INITPINS_Pwm_PIN, kPORT_MuxAlt2);
 }
 /***********************************************************************************************************************
  * EOF

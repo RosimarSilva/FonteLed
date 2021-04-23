@@ -1,7 +1,7 @@
-display.c:22:6:leituraDisplay	32	static
-display.c:38:6:executaFuncao	40	static
-display.c:61:6:go_tela	24	static
-display.c:88:6:requisicao_f80	40	static
-display.c:135:6:requisicao_f81	40	static
-display.c:183:6:requisicao_f82	40	static
-display.c:223:6:requisicao_f83	48	static
+display.c:27:6:leituraDisplay	32	static
+display.c:44:6:executaFuncao	40	static
+display.c:69:6:go_tela	24	static
+display.c:96:6:requisicao_f80	40	static
+display.c:143:6:requisicao_f81	40	static
+display.c:191:6:requisicao_f82	40	static
+display.c:231:6:requisicao_f83	48	static
